@@ -1,0 +1,124 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/05/2016, 10:42:20
+    Author     : Xeo
+*/
+
+/* resets */
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0; 
+    font-family: Verdana, Geneva, Arial, sans-serif;
+}
+
+h1, h2{
+    margin: 20px auto;
+    width: 25%;
+    display: block;
+}
+
+form, .boxe{
+    width: 25%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+#meuform{
+    width: 100%;
+}
+form > fieldset{
+    margin: 5px;
+    padding: 0.5em;
+    border-color: #dedede;
+
+}
+form > fieldset > legend{
+    border: 1px solid #dedede;
+    font-size: 14px;
+    padding: 0 0.5em 0;
+
+}
+form > fieldset > label{
+    display: block;
+    width: 100%;
+    margin: 0 0.5em;
+}
+
+form > fieldset > input{
+    display: block;
+    width: 90%;
+    height: 2.5em;
+    margin: 0 0.5em 1em;
+    padding: 0.5em;
+
+}
+
+.botao{
+    background: #40d47e;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border-style: none;
+    display: block;
+    margin: 0px 10px 10px;
+    padding: 0 0 0;
+    width: 40%;
+    height: 30px;
+    float: right;
+    color: #fff;						
+}
+.botao:hover{
+    background: #27ae60
+}
+
+.botao.reset{
+    background: #95a5a6;
+    text-align: center;
+    line-height: 25px;
+    text-decoration: none;
+}
+
+.botao.reset:hover{
+    background: #7f8c8d;
+}
+
+
+.resp{
+    width: 25%;
+    display: block;
+    margin: 20px auto;
+   /* background: #bdc3c7; */
+    font-size: 16px;
+    color: #e74c3c;
+}
+
+.resp p{
+    padding: 10px 20px;
+}
+/* para dispositivos com no máximo 752 pixels */
+@media screen and (max-width: 752px){
+    form, .boxe{
+        width: 60%;
+    }
+    
+}
+/* para dispositivos com no máximo 656px */
+@media screen and (max-width: 656px) {
+    form, .boxe{
+        width: 70%;
+    }
+    
+    form > fieldset > input{
+        margin: 0 0 0.5em;
+    }
+}

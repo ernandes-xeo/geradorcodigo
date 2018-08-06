@@ -1,0 +1,128 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/05/2016
+    Editado em: 25/10/2017
+    Author     : Xeo
+*/
+
+
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0; 
+}
+header{
+    width: 100%;
+    background: #34495e;
+}
+#header .top{
+    width: 980px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+#header .top h1{
+    position: absolute;
+    top: 10%;
+    text-transform: uppercase;
+}
+
+#header .top a{
+    color: #fff;
+    text-decoration: none;
+
+}
+
+#header .header-right{
+    width: 250px;
+    float:right;
+    margin-top: 5em;
+}
+#header .user{
+    color: #fff;
+    font-weight: 600;
+}
+#header .user span{
+    text-transform: uppercase;
+}
+#header .user a{
+    color: #fff;
+}
+#navigation{
+    width: 100%;
+    background: #7f8c8d
+}
+nav{
+    height: 30px;
+    width: 980px;
+    margin: 0 auto;
+}
+nav ul{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+}
+nav ul li{
+    display: inline;
+}
+
+nav ul li a{
+    height: 30px;
+    display: inline-flex;
+    width: 133px;
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+#main {
+    width: 980px;
+    margin: 0 auto; 
+}
+
+#main .main-contener{
+    width: 780px;
+    min-height: 400px;
+    float: right;
+}
+
+#main #left-destaques{
+    width: 200px;
+    background: #dedede;
+}
+
+#main #right-destaques{
+    width: 200px;
+    float: right;
+}
+
+.success{
+    width: 100%;
+    display: block;
+    text-align: center;
+    background: #83df83;
+    color: green;
+    padding: 8px;
+    margin: 10px;
+}
+
+
+footer{
+    width: 100%;
+    background: #333;
+    float: left;
+}
+#footer-content{
+    width: 980px;
+    margin: 0 auto;
+    background: #333;
+    color: #FFF;
+
+
+}
