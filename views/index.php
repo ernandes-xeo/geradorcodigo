@@ -18,13 +18,13 @@ if ($login->verificaLogin()) {
 <html lang="pt-br">
     <head>
         <meta charset="utf-8" />
-        <title>Layout</title>
-        <meta name="author" content="Prof.: Xeo" >
+        <title>Gerador Código Produto</title>
+        <meta name="author" content="Ernandes Xeo" >
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="Description" content="Layout padrão página html" >
         <link rel="stylesheet" type="text/css" href="../skin/css/style.css">
         <link rel="stylesheet" type="text/css" href="../skin/css/longin.css">
-        
+        <script type="text/javascript" src="../skin/js/jquery-3.3.1.min.js"></script>        
     </head>
     <body>
         <?php
@@ -32,8 +32,11 @@ if ($login->verificaLogin()) {
         include_once "./page/header.php";
         
         include_once "./page/nav.php";
-
-
+       
+        $_GET['key'] = (isset($_GET['key'])? $_GET['key'] : 'index/index');
+        //echo $_GET['key'];
+        
+        
         @$opcao = $_REQUEST['op'];
 
         switch ($opcao) {
