@@ -103,5 +103,31 @@ class Referencia {
             print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
         }
     }
+    
+    public function buscarNome($id){
+        try {
+            $sql = "SELECT * FROM referencia where idreferencia = :idreferencia";
+            $result = Conexao::getInstance()->prepare($sql);
+            $result->bindValue(":idreferencia", $id);
+            
+            if ($result->execute()) {
+                if ($result->rowCount() > 0) {
+                    while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                        $obj = new Referencia();
+                        $obj->setIdReferencia($row->idreferencia);
+                        $obj->setNome($row->nome);
+                        $obj->setMarcaId($row->marca_id);
+                        $obj->setTipoId($row->tipo_id);                
+                    }
+                    return $obj;
+                }else{
+                    return false;
+                }
+            }
+
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao buscar referencia";
+        }
+    }
 
 }

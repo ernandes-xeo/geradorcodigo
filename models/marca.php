@@ -52,5 +52,28 @@ class Marca {
             print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
         }
     }
+    
+    public function buscarNome($id){
+        try{
+            $sql = "Select * from marca where idmarca = :id";
+            $result = Conexao::getInstance()->prepare($sql);
+            $result->bindValue(':id', $id);
+            
+            if($result->execute()){
+                if($result->rowCount() > 0){
+                    while($row = $result->fetch(PDO::FETCH_OBJ)){
+                        $nome = $row->nome;
+                    }
+                    
+                    return $nome;
+                }else{
+                    return  false;
+                }
+            }
+            
+        } catch (Exception $e){
+            print "Erro buscar nome";
+        }
+    }
 
 }

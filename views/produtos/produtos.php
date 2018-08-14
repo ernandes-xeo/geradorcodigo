@@ -4,17 +4,22 @@
     include_once('../models/cor.php');
     include_once('../models/tamanho.php');
     include_once('../models/referencia.php');
+    include_once('../models/codigo.php');
     
     $marca = new Marca();
     $listas = $marca->listar();
+    
     $objTipo = new Tipo();
     $tipos = $objTipo->listar();
+    
     $objCor = new Cor();
     $cores = $objCor->listar();
+    
     $objTamanhos = new Tamanho();
     $tamanhos = $objTamanhos->listar();
     
-    
+    $obCodigo = new Codigo();
+    $listaCodigos = $obCodigo->listar();
  
    
 ?>
@@ -124,8 +129,8 @@
             <input type="hidden" name="acao" value="gerarcodigo" />
             <fieldset><legend>Gerar CÓDIGO SKU</legend>
                                 
-                <label for="marca">Marca</label>
-                <select id="ref-marca" name="marca">
+                <label for="marca_id">Marca</label>
+                <select id="ref-marca" name="marca_id" required="required">
                     <option value="">Selecione</option>
                     <?php foreach ($listas as $lista): ?>
                     <option value="<?php echo $lista->getIdMarca()?>"><?php echo $lista->getNome() ?></option>
@@ -133,28 +138,28 @@
                 </select>
                 
                 <label for="tipo_id">Tipo</label>
-                <select name="tipo_id">
+                <select name="tipo_id" required="required">
                     <option value="">Selecione</option>
                     <?php foreach ($tipos as $tipo): ?>
                     <option value="<?php echo $tipo->getIdTipo()?>"><?php echo $tipo->getNome() ?></option>
                     <?php endforeach;?>                    
                 </select>
 
-                <label for="referencia">Referência</label>
-                <select id="ref-ref" name="referencia">
+                <label for="referencia_id">Referência</label>
+                <select id="ref-ref" name="referencia_id" required="required">
                     <option value="">Selecione</option>
                 </select>
                 
-                <label for="cor">Cor</label>
-                <select name="cor">
+                <label for="cor_id">Cor</label>
+                <select name="cor_id">
                     <option value="">Selecione</option>
                     <?php foreach ($cores as $cor): ?>
                     <option value="<?php echo $cor->getIdCor()?>"><?php echo $cor->getNome() ?></option>
                     <?php endforeach;?>
                 </select>
 
-                <label for="tamanho">Tamanho</label>
-                <select name="tamanho">
+                <label for="tamanho_id">Tamanho</label>
+                <select name="tamanho_id">
                     <option value="">Selecione</option>
                     <?php foreach ($tamanhos as $tamanho): ?>
                     <option value="<?php echo $tamanho->getIdTamanho()?>"><?php echo $tamanho->getNome() ?></option>
@@ -169,6 +174,16 @@
             </fieldset>
         </form>
                 
+        </div>
+        <div class="list-produtos">
+            <?php 
+                foreach($listaCodigos as $codigo){
+                
+                     echo $codigo->getCodigoProduto() ." - ". $codigo->getNome() . "<br />";   
+                
+                
+                }
+            ?>
         </div>
     </div>
     

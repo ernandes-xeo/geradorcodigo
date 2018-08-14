@@ -1,7 +1,7 @@
 <?php
 
 include_once 'conexao.php';
-class Cor {
+class Cor{
 
     private $idCor;
     private $nome;
@@ -25,9 +25,9 @@ class Cor {
     
     public function salvar(){
         $sql = "INSERT INTO cor (nome) VALUES (:nome)";
-        $rs = Conexao::getInstance()->prepare($sql);
-        $rs->bindValue(":nome", $this->getNome());
-        if ($rs->execute()) {
+        $result = Conexao::getInstance()->prepare($sql);
+        $result->bindValue(":nome", $this->getNome());
+        if ($result->execute()) {
             return true;
         } else {
             return false;
@@ -53,5 +53,28 @@ class Cor {
             print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
         }
     }
-
+    
+    public function buscarNome($id){
+        try{
+            $sql = "SELECT * from cor where idcor = :id";
+            $result = Conexao::getInstance()->prepare($sql);
+            $result->bindValue(":id", $id);
+            
+            if($result->execute()){
+                if($result->rowCount() > 0){
+                    while($row = $result->fetch(PDO::FETCH_OBJ)){
+                        $obj = new Cor();
+                        $obj->setIdCor($row->idcor);
+                        $obj->setNome($row->nome);
+                    }
+                    return $obj;
+                }else{
+                    return null;
+                }
+                    
+            }
+        }catch (Exception $e){
+            print "Erro model cor buscar Nome ";
+        }
+    }
 }

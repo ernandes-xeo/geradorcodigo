@@ -53,5 +53,29 @@ class Tipo {
             print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
         }
     }
+    
+        public function buscarNome($id){
+        try {
+            $sql = "SELECT * FROM tipo where idtipo = :idtipo";
+            $result = Conexao::getInstance()->prepare($sql);
+            $result->bindValue(":idtipo",$id);
+            
+            if ($result->execute()) {
+                if ($result->rowCount() > 0) {
+                    while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                        $obj = new Tipo();
+                        $obj->setIdTipo($row->idtipo);
+                        $obj->setNome($row->nome);         
+                    }
+                    return $obj;
+                }else{
+                    return false;
+                }
+            }
+
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao buscar referencia";
+        }
+    }
 
 }
