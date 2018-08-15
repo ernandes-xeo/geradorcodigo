@@ -1,6 +1,6 @@
 <section id="main">
 		<div class="main-contener">
-                    <h2>Conteúdo Príncipal </h2>
+                    <h2>Gerador de código</h2>
                         <br />
                         <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget sapien iaculis, molestie nunc a, vehicula lectus. Fusce et gravida enim.

@@ -29,15 +29,9 @@ $usuarios = $usarioDao->listarPaginas($p, $qnt);
 </script>
 
 <section id="main">
-    <div class="main-contener">
+    <div class="main">
 
-
-
-        <br />
-        <div class="boxe">
-            <h2>Usuarios</h2>
-        </div>
-
+        <h2>Usuarios</h2>
         <?php
         if (!empty($_REQUEST['sucesso']) && $_REQUEST['sucesso'] == 'ok') {
 
@@ -57,30 +51,10 @@ $usuarios = $usarioDao->listarPaginas($p, $qnt);
         <p> Lista de Usuários
             <br />
             <a href="../controllers/usuariosController.php?botao=cadastrar" style="float: right">Cadastrar</a>
-            <br />
-            <br />
-            <?php 
-                for($i=$p-$max_links; $i <= $p-1;$i++){
-                    if($i <=0 ){
-                    }else {
-                       echo " <a href='index.php?op=usuarios&p=".$i."'> " .$i. " </a>";
-                    }
-                }
-                echo $p;
-                for($i = $p+1;$i<=$p+$max_links;$i++){
-                    if($i > $pags){
-                        
-                    }
-                    else {
-                        echo "<a href='index.php?op=usuarios&p=".$i."'> " .$i. " </a>";
-                    }
-                }
-                echO "<a href='index.php?op=usuarios&p='".$pags."'>ultima página</a>"
-
-            ?>
             
             
-        <table width="100%" border="1px">
+            
+        <table width="100%" >
             <thead>
             <td>Usuário</td>
             <td>Nome</td>
@@ -103,5 +77,4 @@ $usuarios = $usarioDao->listarPaginas($p, $qnt);
         </table>  
         <br />
     </div>
-    <section id='left-destaques'>Left com destaques</section>
 </section>

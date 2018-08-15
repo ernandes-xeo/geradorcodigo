@@ -25,6 +25,7 @@ if ($login->verificaLogin()) {
         <link rel="stylesheet" type="text/css" href="../skin/css/style.css">
         <link rel="stylesheet" type="text/css" href="../skin/css/longin.css">
         <script type="text/javascript" src="../skin/js/jquery-3.3.1.min.js"></script>        
+<!--        <script type="text/javascript" src="../skin/js/codigos.js"></script>        -->
     </head>
     <body>
         <?php
@@ -46,21 +47,26 @@ if ($login->verificaLogin()) {
             case 'usuarios':
                 include_once './usuarios/usuarios.php';
                 break;
-            case 'userview':
-                include_once './usuarios/view-user.php';
-                break;
             case 'cadastrar':
                 include_once './usuarios/cadastrar.php';
                 break;
-            
+            case 'userview':
+                include_once './usuarios/view-user.php';
+                break;
             case 'produtos':
                 include_once './produtos/produtos.php';
                 break;
+            
+            case 'listar-produtos':
+                include_once './produtos/listar-produtos.php';
+                break;
+            
             case 'ajuda':
                 include_once './help/ajuda.php';
                 break;
             default:
-                include_once "./page/content.php";
+                //include_once "./page/content.php";
+                include_once './produtos/produtos.php';
         }
 
         

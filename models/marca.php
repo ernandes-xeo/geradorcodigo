@@ -1,10 +1,12 @@
 <?php
 
 include_once 'conexao.php';
+
 class Marca {
 
     private $idMarca;
     private $nome;
+
     public function getIdMarca() {
         return $this->idMarca;
     }
@@ -19,9 +21,9 @@ class Marca {
 
     public function setNome($nome) {
         $this->nome = $nome;
-    }   
-    
-    public function salvar(){
+    }
+
+    public function salvar() {
         $sql = "INSERT INTO marca (nome) VALUES (:nome)";
         $rs = Conexao::getInstance()->prepare($sql);
         $rs->bindValue(":nome", $this->getNome());
@@ -31,7 +33,7 @@ class Marca {
             return false;
         }
     }
-    
+
     public function listar() {
         try {
             $sql = "SELECT * FROM marca order by nome ASC";
@@ -52,26 +54,25 @@ class Marca {
             print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
         }
     }
-    
-    public function buscarNome($id){
-        try{
+
+    public function buscarNome($id) {
+        try {
             $sql = "Select * from marca where idmarca = :id";
             $result = Conexao::getInstance()->prepare($sql);
             $result->bindValue(':id', $id);
-            
-            if($result->execute()){
-                if($result->rowCount() > 0){
-                    while($row = $result->fetch(PDO::FETCH_OBJ)){
+
+            if ($result->execute()) {
+                if ($result->rowCount() > 0) {
+                    while ($row = $result->fetch(PDO::FETCH_OBJ)) {
                         $nome = $row->nome;
                     }
-                    
+
                     return $nome;
-                }else{
-                    return  false;
+                } else {
+                    return false;
                 }
             }
-            
-        } catch (Exception $e){
+        } catch (Exception $e) {
             print "Erro buscar nome";
         }
     }

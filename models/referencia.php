@@ -1,13 +1,14 @@
 <?php
 
 include_once 'conexao.php';
-class Referencia {   
+
+class Referencia {
 
     private $idReferencia;
     private $nome;
     private $marcaId;
     private $tipoId;
-    
+
     public function getIdReferencia() {
         return $this->idReferencia;
     }
@@ -40,9 +41,8 @@ class Referencia {
         $this->tipoId = $tipoId;
     }
 
-        
-    public function salvar(){
-        
+    public function salvar() {
+
         $sql = "INSERT INTO referencia (nome, marca_id, tipo_id) VALUES (:nome, :marca_id, :tipo_id)";
         $rs = Conexao::getInstance()->prepare($sql);
         $rs->bindValue(":nome", $this->getNome());
@@ -54,7 +54,7 @@ class Referencia {
             return false;
         }
     }
-    
+
     public function listar() {
         try {
             $sql = "SELECT * FROM referencia";
@@ -76,7 +76,7 @@ class Referencia {
             print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
         }
     }
-    
+
     public function listarRefMarca($id) {
         try {
             $sql = "SELECT * FROM referencia where marca_id = :marca_id";
@@ -85,46 +85,41 @@ class Referencia {
 
             $lista = array();
             $i = 0;
-            $result->execute();
-    //        echo json_encode($result->fetchAll(PDO::FETCH_ASSOC));
-    
-            while ($row = $result->fetch(PDO::FETCH_OBJ)) {
-                $obj = new Referencia();
-                $obj->setIdReferencia($row->idreferencia);
-                $obj->setNome($row->nome);
-                $obj->setMarcaId($row->marca_id);
-                $obj->setTipoId($row->tipo_id);
-                $lista[$i] = $obj;
-                $i++;
+            
+            if ($result->execute()) {
+                while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                    $obj = new Referencia();
+                    $obj->setIdReferencia($row->idreferencia);
+                    $obj->setNome($row->nome);
+                    $obj->setMarcaId($row->marca_id);
+                    $obj->setTipoId($row->tipo_id);
+                    $lista[$i] = $obj;
+                    $i++;
+                }
+                return $lista;
             }
-            return $lista;
-
+           
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
+            print "Ocorreu um erro ao buscar as marcas em referencias";
         }
     }
-    
-    public function buscarNome($id){
+
+    public function buscarNome($id) {
         try {
             $sql = "SELECT * FROM referencia where idreferencia = :idreferencia";
             $result = Conexao::getInstance()->prepare($sql);
             $result->bindValue(":idreferencia", $id);
-            
+
             if ($result->execute()) {
                 if ($result->rowCount() > 0) {
                     while ($row = $result->fetch(PDO::FETCH_OBJ)) {
-                        $obj = new Referencia();
-                        $obj->setIdReferencia($row->idreferencia);
-                        $obj->setNome($row->nome);
-                        $obj->setMarcaId($row->marca_id);
-                        $obj->setTipoId($row->tipo_id);                
+                        $nome = $row->nome;
                     }
-                    return $obj;
-                }else{
+                    return $nome;
+                } else {
                     return false;
                 }
             }
-
         } catch (Exception $e) {
             print "Ocorreu um erro ao buscar referencia";
         }

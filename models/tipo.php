@@ -1,11 +1,12 @@
 <?php
 
 include_once 'conexao.php';
+
 class Tipo {
 
     private $idTipo;
     private $nome;
-    
+
     public function getIdTipo() {
         return $this->idTipo;
     }
@@ -22,7 +23,7 @@ class Tipo {
         $this->nome = $nome;
     }
 
-    public function salvar(){
+    public function salvar() {
         $sql = "INSERT INTO tipo (nome) VALUES (:nome)";
         $rs = Conexao::getInstance()->prepare($sql);
         $rs->bindValue(":nome", $this->getNome());
@@ -32,7 +33,7 @@ class Tipo {
             return false;
         }
     }
-    
+
     public function listar() {
         try {
             $sql = "SELECT * FROM tipo order by nome ASC";
@@ -53,28 +54,53 @@ class Tipo {
             print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
         }
     }
-    
-        public function buscarNome($id){
+
+    public function buscarNome($id) {
         try {
             $sql = "SELECT * FROM tipo where idtipo = :idtipo";
             $result = Conexao::getInstance()->prepare($sql);
-            $result->bindValue(":idtipo",$id);
-            
+            $result->bindValue(":idtipo", $id);
+
             if ($result->execute()) {
                 if ($result->rowCount() > 0) {
                     while ($row = $result->fetch(PDO::FETCH_OBJ)) {
-                        $obj = new Tipo();
-                        $obj->setIdTipo($row->idtipo);
-                        $obj->setNome($row->nome);         
+                        $nome = $row->nome;
                     }
-                    return $obj;
-                }else{
+                    return $nome;
+                } else {
                     return false;
                 }
             }
-
         } catch (Exception $e) {
             print "Ocorreu um erro ao buscar referencia";
+        }
+    }
+    
+    public function listarTiposRef($marca_id){
+        try{
+            $sql = "select tipo.idtipo, tipo.nome from tipo inner join referencia ref on tipo.idtipo = ref.tipo_id where ref.marca_id = :marca_id group by tipo.idtipo";
+            $result = Conexao::getInstance()->prepare($sql);
+            $result->bindValue(":marca_id", $marca_id);
+            
+            $lista = array();
+            $i = 0;
+            
+            if($result->execute()){
+                while ($row = $result->fetch(PDO::FETCH_OBJ)){
+                    $obj = new Tipo();
+                    $obj->setIdTipo($row->idtipo);
+                    $obj->setNome($row->nome);
+                    $lista[$i] = $obj;
+                    $i++;
+                }
+                return $lista;
+                
+            }else{
+                return false;
+            }
+            
+        }catch(Exception $e){
+            print "Erro ao buscar Tipos em referencias";
         }
     }
 

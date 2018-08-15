@@ -87,35 +87,31 @@ class Codigo {
         $this->tamanhoId = $tamanhoId;
     }
     
-    public function salvar(){
+    public function gerarCodigo(){
                 
         $codigoProduto = null;
         $codigoProduto = "{$this->marcaId}{$this->tipoId}{$this->referenciaId}";
-               
-        $cor = (empty($this->corId)? $this->corId : '-');
-        $tamanho = (empty($this->tamanhoId)? $this->tamanhoId : '-');
         
-        /* Opicional */
-        if($cor != '-')
-            $codigoProduto .= $cor;
+        if(isset($this->corId))
+            $codigoProduto .= $this->corId;
         
-        /* Opicional */
-        if($tamanho != '-')
-            $codigoProduto .= $tamanho;
+        if(isset($this->tamanhoId))
+            $codigoProduto .= $this->tamanhoId;
+        
         
         /* Código completo */
         $this->setCodigoProduto($codigoProduto);
                 
         /* Formar nome do produto */       
         $tipo = new Tipo();
-        $nome = $tipo->buscarNome($this->tipoId)->getNome(); // erro esta retornando objeto inteiro
+        $nome = $tipo->buscarNome($this->tipoId); // erro esta retornando objeto inteiro
         
         $ref = new Referencia();
-        $nome .=  " " . $ref->buscarNome($this->referenciaId)->getNome();  //erro esta retornando objeto inteiro
+        $nome .=  " " . $ref->buscarNome($this->referenciaId);  //erro esta retornando objeto inteiro
          
         if(!empty($this->corId)){
             $objcor = new Cor ();
-            $nome .= " " . $objcor->buscarNome($this->corId)->getNome();
+            $nome .= " " . $objcor->buscarNome($this->corId);
         }
         
         if(!empty($this->tamanhoId)){
@@ -124,12 +120,23 @@ class Codigo {
          }
         
         $objMarca = new Marca();
-        $nome .=" - ". $objMarca->buscarNome($this->marcaId); 
+        $nome .=" ". $objMarca->buscarNome($this->marcaId); 
        
         
         // setando nome no objeto
         $this->setNome($nome);
-                
+        
+        if($this->verificarCodigo()){            
+            $_SESSION['codigo'] = true; // o codigo ja foi cadastrado
+            $_SESSION['nome_produto'] = $this->getNome(); // o codigo ja foi cadastrado
+            return true; // o código já existe
+        }else{
+            unset($_SESSION['codigo']); 
+            return false; // o produto não foi cadastrado
+        }
+    }
+    
+    public function salvar(){
         $sql = "INSERT INTO codigo (`nome`,`nome_site`,`codigo_produto`,`marca_id`,`tipo_id`,`referencia_id`,`cor_id`,`tamanho_id`)"
                 . " VALUES (:nome, :nome_site, :codigo_produto, :marca_id, :tipo_id, :referencia_id, :cor_id, :tamanho_id)";
        
@@ -149,8 +156,25 @@ class Codigo {
         } else {
             return false;
         }
+        
     }
     
+    public function excluir($codigoId){
+        try{
+        $sql = "DELETE FROM codigo where idcodigo = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":codigoId", $codigoId);
+        if($rs->execute()){
+            return true;
+        }else{
+            return false;
+        }
+        } catch (Exception $e){
+            print "Erro ao excluir código";
+        }
+    }
+
+
     public function listar() {
         try {
             $sql = "SELECT * FROM codigo";
@@ -178,7 +202,19 @@ class Codigo {
         } catch (Exception $e) {
             print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
         }
-    }  
+    }
+    
+    public function verificarCodigo(){
+        $sql = "SELECT * FROM codigo where codigo_produto = :codigo_produto";
+        $result = Conexao::getInstance()->prepare($sql);
+        $result->bindValue(":codigo_produto", $this->getCodigoProduto());
+        if($result->execute()){
+            if($result->rowCount() > 0)
+                return true;
+            else
+                return false;
+        }
+    }
     
     
 }

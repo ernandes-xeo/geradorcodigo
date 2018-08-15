@@ -62,12 +62,10 @@ class Cor{
             
             if($result->execute()){
                 if($result->rowCount() > 0){
-                    while($row = $result->fetch(PDO::FETCH_OBJ)){
-                        $obj = new Cor();
-                        $obj->setIdCor($row->idcor);
-                        $obj->setNome($row->nome);
+                    while($row = $result->fetch(PDO::FETCH_OBJ)){                        
+                        $nome =$row->nome;
                     }
-                    return $obj;
+                    return $nome;
                 }else{
                     return null;
                 }
