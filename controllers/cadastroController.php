@@ -135,7 +135,7 @@ switch ($action) {
             }
         }
         break;
-    case 'escluircodlista':
+    case 'excluirItem':
         $codigoId = (int) $_REQUEST['codigoid'];
         if(!empty($codigoId)){
             if($codigo->excluir($codigoId)){
@@ -144,11 +144,42 @@ switch ($action) {
                 header($url);
             }
         }
-        break;    
-    case 'editarcodigo':
-        echo '<center><br /><br /><h2>Desculpe, :(</h2>';
-        echo "Não foi feito ainda...<center>";
-        break;    
+    break;    
+    case 'editarNomeSite':
+        $codigoId = $_GET['codigoid'];
+        $nomeSite = $_GET['nomesite'];
+        $codigo->setCodigoId($codigoId);
+        $codigo->setNomeSite($nomeSite);
+        
+        if($codigo->editarNomeSite()){
+            $url = 'location: ../views/index.php?op=listar-produtos';
+            header($url);
+        }else{
+            $url = 'location: ../views/index.php?op=listar-produtos';
+            header($url);
+        }
+        break; 
+    case "update-list":
+        
+        $nomes = $_POST['nome-site'];
+      //  var_dump($nomes);
+        $retorno = array();
+        foreach ($nomes as $ind=>$value){
+            $codigo->setCodigoId($ind);
+            $codigo->setNomeSite($value);
+            if($codigo->salvarNomeSite()){                
+                $retorno[$ind] = $codigo->localizar($ind)->getNome() . "RETORNO ";
+            }else{
+                $retorno[$ind] = $codigo->getCodigoId(). " Não foi atualizado";
+            }
+        }
+        
+       // $_SESSION['retorno'] = $retorno;
+       unset($_SESSION['retorno']);
+        $url = 'location: ../views/index.php?op=listar-produtos';
+        header($url);
+        
+        break;
     default:
         echo "erro";
         break;
