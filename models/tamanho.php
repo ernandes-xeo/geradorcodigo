@@ -34,7 +34,7 @@ class Tamanho {
     }
     public function listar() {
         try {
-            $sql = "SELECT * FROM tamanho order by nome ASC";
+            $sql = "SELECT * FROM tamanho";
 
             $result = Conexao::getInstance()->query($sql);
 

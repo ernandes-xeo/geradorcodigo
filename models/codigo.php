@@ -103,26 +103,32 @@ class Codigo {
         /* Código completo */
         $this->setCodigoProduto($codigoProduto);
 
-        /* Formar nome do produto */
+        /* 
+         * Formar nome do produto 
+         * Tipo
+         * Referencia
+         * Cor
+         * Marca
+         * Tamanho
+         **/
         $tipo = new Tipo();
         $nome = $tipo->buscarNome($this->tipoId); // erro esta retornando objeto inteiro
 
         $ref = new Referencia();
         $nome .= " " . $ref->buscarNome($this->referenciaId);  //erro esta retornando objeto inteiro
-
+        
         if (!empty($this->corId)) {
             $objcor = new Cor ();
             $nome .= " " . $objcor->buscarNome($this->corId);
         }
+        
+         $objMarca = new Marca();
+        $nome .= " " . $objMarca->buscarNome($this->marcaId);
 
         if (!empty($this->tamanhoId)) {
             $objT = new Tamanho();
             $nome .= " " . $objT->buscarNome($this->tamanhoId);
         }
-
-        $objMarca = new Marca();
-        $nome .= " " . $objMarca->buscarNome($this->marcaId);
-
 
         // setando nome no objeto
         $this->setNome($nome);
@@ -189,33 +195,40 @@ class Codigo {
             print "Erro ao excluir código";
         }
     }
-
-    public function listar() {
+    /*
+     * Inserir coluna e ordem
+     */
+    public function listar($ordem=null, $limit=null) {
         try {
-            $sql = "SELECT * FROM codigo";
 
-            $result = Conexao::getInstance()->query($sql);
+            $ordem = (isset($ordem) ? 'ORDER BY ' . $ordem : null );
+            $limit = (isset($limit) ? ' LIMIT ' . $limit : null);
+            
+            $sql = "SELECT * FROM codigo $ordem $limit";            
+            $result = Conexao::getInstance()->prepare($sql);
 
             $lista = array();
             $i = 0;
-            while ($row = $result->fetch(PDO::FETCH_OBJ)) {
-                $obj = new Codigo();
-                $obj->setCodigoId($row->idcodigo);
-                $obj->setNome($row->nome);
-                $obj->setNomeSite($row->nome_site);
-                $obj->setCodigoProduto($row->codigo_produto);
-                $obj->setMarcaId($row->marca_id);
-                $obj->setTipoId($row->tipo_id);
-                $obj->setReferenciaId($row->referencia_id);
-                $obj->setCorId($row->cor_id);
-                $obj->setTamanhoId($row->tamanho_id);
+            if($result->execute()) {
+                while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                    $obj = new Codigo();
+                    $obj->setCodigoId($row->idcodigo);
+                    $obj->setNome($row->nome);
+                    $obj->setNomeSite($row->nome_site);
+                    $obj->setCodigoProduto($row->codigo_produto);
+                    $obj->setMarcaId($row->marca_id);
+                    $obj->setTipoId($row->tipo_id);
+                    $obj->setReferenciaId($row->referencia_id);
+                    $obj->setCorId($row->cor_id);
+                    $obj->setTamanhoId($row->tamanho_id);
 
-                $lista[$i] = $obj;
-                $i++;
+                    $lista[$i] = $obj;
+                    $i++;
+                }
             }
             return $lista;
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
+            print "Ocorreu um erro ao listar.";
         }
     }
 
@@ -246,13 +259,13 @@ class Codigo {
             print "Ocorreu ao localizar o codigoId";
         }
     }
-    
+
     public function editarNomeSite() {
         $sql = "UPDATE codigo set nome_site=:nome_site where idcodigo=:idcodigo";
         $result = Conexao::getInstance()->prepare($sql);
         $result->bindValue(":nome_site", $this->getNomeSite());
         $result->bindValue(":idcodigo", $this->getCodigoId());
-        
+
         if ($result->execute()) {
             if ($result->rowCount() > 0)
                 return true;

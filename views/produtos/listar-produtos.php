@@ -4,7 +4,7 @@ include_once('../models/codigo.php');
 
 
 $obCodigo = new Codigo();
-$listaCodigos = $obCodigo->listar();
+$listaCodigos = $obCodigo->listar('idcodigo DESC');
 
 $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 $url .= '/controllers/cadastroController.php';
@@ -43,15 +43,15 @@ $url .= '/controllers/cadastroController.php';
             }
             // o novo código já exite
             if (@$_SESSION['retorno']) {
-                foreach ($_SESSION['retorno'] as $nome){
+                foreach ($_SESSION['retorno'] as $nome) {
                     echo "<span class='success'>$nome Atualizado com sucesso</span>";
                 }
                 unset($_SESSION['retorno']);
             }
             ?>
-            
-            
-            
+
+
+
         </p>
         <div class="list-produtos">
             <?php if (count($listaCodigos) > 0): ?>
@@ -80,29 +80,31 @@ $url .= '/controllers/cadastroController.php';
                                     <td><?php echo $codigo->getNome(); ?></td>
                                     <td class="editar-nome"><?php if (empty($codigo->getNomeSite())) { ?>
                                             <input type="text" name="nome-site[<?php echo $codigo->getCodigoId() ?>]" value="<?php if ($nome = $codigo->getNomeSite()) echo $nome; ?>">
-                                        <?php
+                                            <?php
                                         }else {
                                             echo $codigo->getNomeSite();
                                         }
                                         ?>
                                     </td>
                                     <td>
-                            <?php if(!empty($codigo->getNomeSite())){ echo "<a class='editarcodigo' href='#' id='" . $codigo->getCodigoId() . "'>Editar</a> "; } ?>
-                                        <?php echo "<a class='excluir' style='float: right' href='#' id='" . $codigo->getCodigoId() . "'> Excluir</a>" ?>
+                                        <?php if (!empty($codigo->getNomeSite())) {
+                                            echo "<a class='editarcodigo' href='#' id='" . $codigo->getCodigoId() . "'>Editar</a>";
+                                        } ?>
+                                <?php echo "<a class='excluir' style='float: right' href='#' id='" . $codigo->getCodigoId() . "'> Excluir</a>" ?>
                                     </td>
                                 </tr>
-                            <?php } //endforeach ?> 
+    <?php } //endforeach  ?> 
                         </tbody>
                         <tfoot>
-                           
+
 
                         </tfoot>
                     </form>
                 </table>
-            <?php endif; ?>
+                <br />
+<?php endif; ?>
         </div>
     </div>
-</div>
 <script type="text/javascript">
     $(function () {
 
@@ -115,33 +117,44 @@ $url .= '/controllers/cadastroController.php';
             }
         })
 
-        $(".editarcodigo").on('click', function () {            
+        $(document).on('click', '.editarcodigo', function () {
             var codigoId;
             codigoId = $(this).attr("id");
-            var nome =  $.trim($(this).parent().prev().html()); // valor do elemento irmão
-            
-            var input = '<input type="text" name="nome-site['+codigoId+']" value="'+nome+'">';
+            var nome = $.trim($(this).parent().prev().html()); // valor do elemento irmão
+
+            var input = '<input type="text" id=' + codigoId + ' name="nome-site[' + codigoId + ']" value="' + nome + '">';
+
             $(this).parent().prev().html(input);
-            
-            var salvar = "<a class='salvar' href='#' id='"+codigoId+"'>Salvar</a> ";
-            
-            $(this).parent().append(salvar);
-            //$(this).location.href = "<?php echo $url . '?acao=editarcodigo&codigoid=' ?>" + codigoId;
-            $(this).remove();
+            $(this).addClass("salvar").removeClass("editarcodigo").html("Salvar");
+        })
+
+        $(document).on('click', '.salvar', function () {
+            // tag <a>
+            var acao = $(this);
+            var codigoId = acao.attr("id");
+
+            var nomeSite = $(this).parent().prev().find("input"); //elemento
+            var nome = nomeSite.val();
+            var id = nomeSite.attr("id");
+            $.ajax({
+                method: "GET",
+                url: "<?php echo $url; ?>",
+                data: {acao: 'editarNomeSite', codigoid: codigoId, nomesite: nome},
+                beforeSend: function () {
+                    $(this).parent().prev().html("carregando..");
+                }
+            }).done(function (dados) {
+
+                $(nomeSite).parent().html(dados);
+                $(nomeSite).remove();
+                $(acao).addClass("editarcodigo").removeClass("salvar").html("Editar");
+
+            }).fail(function () {
+                console.log("Erro ao atualizar o nome do site");
+            })
 
         })
-        
-        $(document).on('click', '.salvar', function () {
-            var codigoId;
-            codigoId = $(this).attr("id");
-            var nomeSite =  $(this).parent().prev().find("input").val(); //Novo valor do nome
-            
-            window.location.href = "<?php echo $url . '?acao=editarNomeSite&codigoid=' ?>" + codigoId + "&nomesite=" + nomeSite;
-            
-        })
-        
-        
-        
+
     })
 </script>
 

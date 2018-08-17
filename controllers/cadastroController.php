@@ -104,27 +104,37 @@ switch ($action) {
         $corId = (!empty($_POST['cor_id']) ? (int) $_POST['cor_id'] : null);
         $tamanhoId = (!empty($_POST['tamanho_id']) ? (int) $_POST['tamanho_id'] : null);
 
+
         
-        $codigo->setMarcaId($marcaId);
         $codigo->setTipoId($tipoId);
+        $codigo->setMarcaId($marcaId);
         $codigo->setReferenciaId($referenciaId);
         $codigo->setCorId($corId);
         $codigo->setTamanhoId($tamanhoId);
-
-
-        // echo $codigo->gerarCodigo();
-
+        
         if (!$codigo->gerarCodigo()) {
             if ($codigo->salvar()) {
                 $_SESSION['sucesso'] = true;
                 $url = 'location: ../views/index.php?op=produtos';
-                header($url);
+               // header($url);
+                echo "<span class='success'>Produto Cadastrado com Sucesso!</span>";
             }
         } else {
-            $url = 'location: ../views/index.php?op=produtos';
-            header($url);
+            echo "<span class='error'>Este produto já foi cadastrado.</span>";
         }
         break;
+    case 'listarcodigos':
+        
+        $listaCodigos = $codigo->listar('idcodigo DESC', 10);
+        foreach ($listaCodigos as $codigo){
+            echo "<tr>";
+            echo "<td>" . $codigo->getCodigoProduto() . "</td>";
+            echo "<td>" . $codigo->getNome() . "</td>";
+            echo "<td><a class='excluir' href='#' id='" . $codigo->getCodigoId() . "'> Excluir</a></td>";
+            echo "</tr>";
+        }
+        
+    break;
     case 'excluircodigo':
         $codigoId = (int) $_REQUEST['codigoid'];
         if(!empty($codigoId)){
@@ -150,14 +160,9 @@ switch ($action) {
         $nomeSite = $_GET['nomesite'];
         $codigo->setCodigoId($codigoId);
         $codigo->setNomeSite($nomeSite);
+        $codigo->salvarNomeSite();
         
-        if($codigo->editarNomeSite()){
-            $url = 'location: ../views/index.php?op=listar-produtos';
-            header($url);
-        }else{
-            $url = 'location: ../views/index.php?op=listar-produtos';
-            header($url);
-        }
+        echo $codigo->localizar($codigo->getCodigoId())->getNomeSite();
         break; 
     case "update-list":
         
