@@ -33,10 +33,34 @@ class Marca {
             return false;
         }
     }
+    
+    public function editar() {
+        $sql = "UPDATE marca SET nome = :nome WHERE idmarca = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":nome", $this->getNome());
+        $rs->bindValue(":codigoId", $this->getIdMarca());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function excluir() {
+        $sql = "DELETE FROM marca WHERE idmarca = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":codigoId", $this->getIdMarca());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }    
+    
 
     public function listar() {
         try {
-            $sql = "SELECT * FROM marca order by nome ASC";
+            $sql = "SELECT * FROM marca";
 
             $result = Conexao::getInstance()->query($sql);
 
@@ -51,7 +75,7 @@ class Marca {
             }
             return $lista;
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar listar marcas";
         }
     }
 

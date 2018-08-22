@@ -33,10 +33,33 @@ class Tipo {
             return false;
         }
     }
+    
+    public function editar() {
+        $sql = "UPDATE tipo SET nome = :nome WHERE idtipo = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":nome", $this->getNome());
+        $rs->bindValue(":codigoId", $this->getIdTipo());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function excluir() {
+        $sql = "DELETE FROM tipo WHERE idtipo = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":codigoId", $this->getIdTipo());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }  
 
     public function listar() {
         try {
-            $sql = "SELECT * FROM tipo order by nome ASC";
+            $sql = "SELECT * FROM tipo";
 
             $result = Conexao::getInstance()->query($sql);
 

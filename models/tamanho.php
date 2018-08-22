@@ -32,6 +32,30 @@ class Tamanho {
             return false;
         }
     }
+    
+    public function editar() {
+        $sql = "UPDATE tamanho SET nome = :nome WHERE idtamanho = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":nome", $this->getNome());
+        $rs->bindValue(":codigoId", $this->getIdTamanho());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function excluir() {
+        $sql = "DELETE FROM tamanho WHERE idtamanho = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":codigoId", $this->getIdTamanho());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public function listar() {
         try {
             $sql = "SELECT * FROM tamanho";

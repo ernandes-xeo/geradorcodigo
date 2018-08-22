@@ -19,6 +19,10 @@ class Codigo {
     public function getCodigoId() {
         return $this->codigoId;
     }
+    
+    public function getIdCodigo(){
+        return $this->codigoId;
+    }
 
     public function getNome() {
         return $this->nome;
@@ -53,6 +57,10 @@ class Codigo {
     }
 
     public function setCodigoId($codigoId) {
+        $this->codigoId = $codigoId;
+    }
+    
+    public function setIdCodigo($codigoId){
         $this->codigoId = $codigoId;
     }
 
@@ -165,11 +173,15 @@ class Codigo {
         }
     }
 
-    public function excluir($codigoId) {
+    public function excluir($codigoId=null) {
         try {
+            
+            if(!empty($codigoId))
+                $this->setCodigoId($codigoId);
+            
             $sql = "DELETE FROM codigo where idcodigo = :codigoId";
             $rs = Conexao::getInstance()->prepare($sql);
-            $rs->bindValue(":codigoId", $codigoId);
+            $rs->bindValue(":codigoId", $this->getCodigoId());
             if ($rs->execute()) {
                 return true;
             } else {

@@ -25,26 +25,67 @@ $referencias = $objref->listar();
 $obCodigo = new Codigo();
 $listaCodigos = $obCodigo->listar('idcodigo DESC', 10);
 $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+$urlEditar = $url . '/controllers/editarCadastroController.php';
+
 $url .= '/controllers/cadastroController.php';
 ?>
 <style type="text/css">
+    /*
+    .panel{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-flow: row;
+            
+    }
+    */
     form{
-        width: 25%;
-        height: auto;
+        width: 20%;
         display: block;
         font-size: 12px;
-        line-height: 20px;
+        line-height: 20px;      
         float: left;
     }
 
+    form fieldset{
+        border: none;
+    }
+
+    .return{
+        min-height: 35px;
+    }
+
+    .coluna{ 
+        width: 20%; 
+        margin: 0 auto; 
+        max-height: 500px;
+        overflow-y: auto;
+        float: left;
+    }
+
+    #listarcodigos i, .coluna i {
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    #listarcodigos table{
+        font-size: 14px;
+
+    }
+
     .boxe{
-        width: 50%;
+        width: 40%;
+        float: left;
+        margin-bottom: 5em;
+    }
+    .boxe1{
+        width: 60%;
         float: left;
         margin-bottom: 5em;
     }
 
     h2.accordion{ cursor: pointer; }
-    .panel{ display: none; }
+    /*.panel{ display: none; }*/
 
 </style>
 
@@ -59,6 +100,8 @@ $url .= '/controllers/cadastroController.php';
             }
             if (@$_SESSION['excluido'] == true) {
                 unset($_SESSION['excluido']);
+                unset($_SESSION['sucesso']);
+                unset($_SESSION['codigo']);
                 echo "<span class='success'>Código Excluido.</span>";
             }
 
@@ -80,14 +123,6 @@ $url .= '/controllers/cadastroController.php';
                         <input type="text" name="nome" id="nome" required="required" />
                         <input class="botao" name="botao" name="botao" type="submit" value="Salvar" />
                     </fieldset>
-                    <fieldset><legend>Marcas</legend>
-                        <?php
-                        foreach ($listas as $marca) {
-                            echo $marca->getNome() . "<br />";
-                        }
-                        ?>
-
-                    </fieldset>
                 </form>
                 <form method="POST" action="<?php echo $url ?>">
                     <input type="hidden" name="acao" value="tipo" />
@@ -95,14 +130,6 @@ $url .= '/controllers/cadastroController.php';
                         <label for="nome">Informe o nome</label>
                         <input type="text" name="nome" required="required" />
                         <input class="botao" name="botao" type="submit" value="Salvar" />
-                    </fieldset>
-                    <fieldset><legend>Tipos</legend>
-                        <?php
-                        foreach ($tipos as $tipo) {
-                            echo $tipo->getNome() . "<br />";
-                        }
-                        ?>
-
                     </fieldset>
                 </form>
                 <form method="POST" action="<?php echo $url ?>">
@@ -128,17 +155,6 @@ $url .= '/controllers/cadastroController.php';
                         <input type="text" name="nome" id="nome" required="required" />
                         <input class="botao" name="botao" type="submit" value="Salvar" />
                     </fieldset>
-
-                    <fieldset><legend>Referências</legend>
-                        <?php
-                        foreach ($referencias as $referencia) {
-                            echo $marca->buscarNome($referencia->getMarcaId()) . ": " .
-                            $objTipo->buscarNome($referencia->getTipoId()) . "_" . $referencia->getNome() . "<br />";
-                        }
-                        ?>
-
-                    </fieldset>
-
                 </form>
                 <form method="POST" action="<?php echo $url ?>">
                     <input type="hidden" name="acao" value="cor" />
@@ -159,6 +175,117 @@ $url .= '/controllers/cadastroController.php';
             </div>
         </div>
         <p style="clear: both"></p>
+        <!-- Itens cadastrados --> 
+        <div class="panel">
+            <div class="coluna">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Marcas</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($listas as $marca) { ?>
+                            <tr>
+                                <td><?php echo $marca->getNome() ?></td>
+                                <td>
+                                    <?php echo "<i  id='Marca_editar_" . $marca->getIdMarca() . "' class='fa editarcodigo'>&#xf044;</i>"; ?> 
+                                    <?php echo "<i  id='Marca_excluir_" . $marca->getIdMarca() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
+
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="coluna">
+                <table>
+                    <thead>
+                        <tr> 
+                            <th colspan="2">Tipos</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($tipos as $tipo) { ?>
+                            <tr>
+                                <td><?php echo $tipo->getNome() ?></td>
+                                <td>
+                                    <?php echo "<i  id='Tipo_editar_" . $tipo->getIdTipo() . "' class='fa editarcodigo'>&#xf044;</i>"; ?> 
+                                    <?php echo "<i  id='Tipo_excluir_" . $tipo->getIdTipo() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table> 
+            </div>
+            <div class="coluna">
+                <table>
+                    <thead>
+                        <tr> 
+                            <th colspan="2">Referências</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($referencias as $referencia) { ?>
+                            <tr>
+                                <td><?php echo $marca->buscarNome($referencia->getMarcaId()) . ": " .
+                        $objTipo->buscarNome($referencia->getTipoId()) . "_" . $referencia->getNome();
+                            ?></td>
+                                <td>
+                                    <?php // echo "<i  id='". $referencia->getIdReferencia()  ."' class='fa editarcodigo'>&#xf044;</i>"; ?> 
+                                    <?php echo "<i  id='Codigo_excluir_" . $referencia->getIdReferencia() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
+
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="coluna">
+                <table>
+                    <thead>
+                        <tr> 
+                            <th colspan="2">Cores</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+<?php foreach ($cores as $cor) { ?>
+                            <tr>
+                                <td><?php echo $cor->getNome() ?></td>
+                                <td>
+                                    <?php echo "<i  id='Cor_editar_" . $cor->getIdCor() . "' class='fa editarcodigo'>&#xf044;</i>"; ?> 
+    <?php echo "<i  id='Cor_excluir_" . $cor->getIdCor() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
+                                </td>
+                            </tr>
+<?php } ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="coluna">
+                <table>
+                    <thead>
+                        <tr> 
+                            <th colspan="2">Tamanhos</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+
+<?php foreach ($tamanhos as $tamanho) { ?>
+                            <tr>                        
+                                <td><?php echo $tamanho->getNome() ?></td>
+                                <td>
+                                    <?php echo "<i  id='Tamanho_editar_" . $tamanho->getIdTamanho() . "' class='fa editarcodigo'>&#xf044;</i>"; ?> 
+    <?php echo "<i  id='Tamanho_excluir_" . $tamanho->getIdTamanho() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
+                                </td>
+                            </tr>
+<?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p style="clear: both"></p>
         <hr />
         <div id="gerar-codigo">
             <h2>Gerar Novos Produtos</h2>
@@ -172,7 +299,7 @@ $url .= '/controllers/cadastroController.php';
                             <option value="">Selecione</option>
                             <?php foreach ($listas as $lista): ?>
                                 <option value="<?php echo $lista->getIdMarca() ?>"><?php echo $lista->getNome() ?></option>
-                            <?php endforeach; ?>
+<?php endforeach; ?>
                         </select>
 
                         <label for="tipo_id">Tipo</label>
@@ -180,7 +307,7 @@ $url .= '/controllers/cadastroController.php';
                             <option value="">Selecione</option>
                             <?php foreach ($tipos as $tipo): ?>
                                 <option value="<?php echo $tipo->getIdTipo() ?>"><?php echo $tipo->getNome() ?></option>
-                            <?php endforeach; ?>                    
+<?php endforeach; ?>                    
                         </select>
 
                         <label for="referencia_id">Referência</label>
@@ -193,7 +320,7 @@ $url .= '/controllers/cadastroController.php';
                             <option value="">Selecione</option>
                             <?php foreach ($cores as $cor): ?>
                                 <option value="<?php echo $cor->getIdCor() ?>"><?php echo $cor->getNome() ?></option>
-                            <?php endforeach; ?>
+<?php endforeach; ?>
                         </select>
 
                         <label for="tamanho_id">Tamanho</label>
@@ -201,17 +328,17 @@ $url .= '/controllers/cadastroController.php';
                             <option value="">Selecione</option>
                             <?php foreach ($tamanhos as $tamanho): ?>
                                 <option value="<?php echo $tamanho->getIdTamanho() ?>"><?php echo $tamanho->getNome() ?></option>
-                            <?php endforeach; ?>
+<?php endforeach; ?>
                         </select>
                         <br />
                         <input class="botao" id="gerarcodigo" name="botao" type="button" value="Adicionar" />
                     </fieldset>
                 </form>
             </div>
-            <div class="boxe">  
+            <div class="boxe1">  
                 <h3>Últimos Produtos Cadastrados</h3>
                 <div id="listarcodigos">
-                    <?php if (count($listaCodigos) > 0): ?>
+<?php if (count($listaCodigos) > 0): ?>
                         <table>
                             <thead>
                                 <tr>
@@ -221,17 +348,18 @@ $url .= '/controllers/cadastroController.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($listaCodigos as $codigo) { ?> 
+    <?php foreach ($listaCodigos as $codigo) { ?> 
                                     <tr>
                                         <td><?php echo $codigo->getCodigoProduto(); ?></td>
                                         <td><?php echo $codigo->getNome(); ?></td>
-                                        <td><?php echo "<a class='excluir' href='#' id='" . $codigo->getCodigoId() . "'> Excluir</a>" ?></td>
+                                        <td>
+        <?php echo "<i  id='" . $codigo->getCodigoId() . "' class='fa excluir-ref'>&#xf1f8;</i>"; ?>
+                                        </td>
                                     </tr>
-                                <?php } ?> 
+    <?php } ?> 
                             </tbody>
-
                         </table>
-                    <?php endif; ?>
+<?php endif; ?>
                 </div>
             </div>
         </div>
@@ -292,8 +420,73 @@ $url .= '/controllers/cadastroController.php';
             })
 
         })
+        /* Editar cadastrados pela listagem */
+        /* Pegar o valor do id e texto do campo nome */
+        $(document).on('click', '.editarcodigo', function () {
+            var codigoId;
+            codigoId = $(this).attr("id");
+            var nome = $.trim($(this).parent().prev().html()); // valor do elemento irmão
 
-        $(".excluir").on('click', function () {
+            var input = '<input type="text" id=' + codigoId + ' name="' + codigoId + '" value="' + nome + '">';
+
+            $(this).parent().prev().html(input);
+            // inserir a acao para salvar
+            salvar = "<i  class='fa'>&#xf00c;</i>";
+            $(this).addClass("salvar").removeClass("editarcodigo").html(salvar);
+        })
+        /* Salvar edição cadastro simples */
+        $(document).on('click', '.salvar', function () {
+            // tag <a>
+            var elemento = $(this); //elemento html
+            var data = elemento.attr("id").split("_");
+
+            var edite = $(this).parent().prev().find("input"); //elemento
+            var nvalor = edite.val();
+
+            $.ajax({
+                method: "POST",
+                url: "<?php echo $urlEditar; ?>",
+                data: {table: data[0], acao: data[1], codigoId: data[2], valor: nvalor},
+                beforeSend: function () {
+                    $(this).parent().prev().html("carregando..");
+                }
+            }).done(function (dados) {
+
+                $(edite).parent().html(dados);
+                $(edite).remove();
+                $(elemento).addClass("editarcodigo").removeClass("salvar").html("&#xf044;"); // EDITAR
+
+            }).fail(function () {
+                console.log("Erro ao atualizar o nome do site");
+            })
+
+
+        })
+
+        /* Excluir cadastros básicos */
+        $(document).on('click', '.excluir', function () {
+            var info = $(this).attr("id").split("_");
+            var tbody = $(this).parents('tbody');
+
+            $.ajax({
+                method: "POST",
+                url: "<?php echo $urlEditar; ?>",
+                data: {table: info[0], acao: info[1], codigoId: info[2]},
+                beforeSend: function () {
+                    $(tbody).html("Atualizando...");
+                }
+            }).done(function (data) {
+                if (data) {
+                    atualizarCadastros(tbody, info);
+                }
+            })
+        })
+
+
+
+
+        /* Excluir referência*/
+        $(document).on('click', '.excluir-ref', function () {
             var codigoId;
             codigoId = $(this).attr("id");
             res = confirm("Deseja excluir o código selecionado?");
@@ -302,17 +495,33 @@ $url .= '/controllers/cadastroController.php';
             }
         })
 
+        function atualizarCadastros(tbody, data) {
+
+            $.ajax({
+                method: "POST",
+                url: "<?php echo $urlEditar; ?>",
+                data: {table: data[0], acao: 'listar', codigoId: data[2]},
+                beforeSend: function () {
+                    //$(".panel .coluna table > tbody").html("Atualizando...");
+                }
+            }).done(function (data) {
+                $(tbody).html(data);
+            })
+
+
+        }
+
         function atualizarListaProdutos() {
             $.ajax({
                 method: "POST",
                 url: "<?php echo $url; ?>",
                 data: {acao: 'listarcodigos'},
                 beforeSend: function () {
-                    $("table > tbody").html("Atualizando...");
+                    $("#listarcodigos table > tbody").html("Atualizando...");
                 }
             }).done(function (data) {
-                $("table > tbody").html(data);
-                
+                $("#listarcodigos table > tbody").html(data);
+
             })
         }
     })

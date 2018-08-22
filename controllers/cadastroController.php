@@ -130,12 +130,12 @@ switch ($action) {
             echo "<tr>";
             echo "<td>" . $codigo->getCodigoProduto() . "</td>";
             echo "<td>" . $codigo->getNome() . "</td>";
-            echo "<td><a class='excluir' href='#' id='" . $codigo->getCodigoId() . "'> Excluir</a></td>";
+            echo "<td><i  id='" .$codigo->getCodigoId() . "' class='fa excluir-ref'>&#xf1f8;</i></td>";
             echo "</tr>";
         }
         
     break;
-    case 'excluircodigo':
+    case 'excluircodigo': // Excluir código de referência página produtos.php
         $codigoId = (int) $_REQUEST['codigoid'];
         if(!empty($codigoId)){
             if($codigo->excluir($codigoId)){
@@ -145,7 +145,7 @@ switch ($action) {
             }
         }
         break;
-    case 'excluirItem':
+    case 'excluirItem': /// Excluir item página listar-prodututos.php
         $codigoId = (int) $_REQUEST['codigoid'];
         if(!empty($codigoId)){
             if($codigo->excluir($codigoId)){
@@ -186,6 +186,6 @@ switch ($action) {
         
         break;
     default:
-        echo "erro";
+        echo "erro cadastro controller";
         break;
 }

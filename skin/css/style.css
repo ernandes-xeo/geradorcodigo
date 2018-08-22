@@ -22,7 +22,7 @@ header{
     background: #34495e;
 }
 #header .top{
-    width: 980px;
+    width: 1200px;
     height: 200px;
     margin: 0 auto;
 }
@@ -60,7 +60,7 @@ header{
 }
 nav{
     height: 30px;
-    width: 980px;
+    width: 1200px;
     margin: 0 auto;
 }
 nav ul{
@@ -82,7 +82,7 @@ nav ul li a{
 }
 
 #main {
-    width: 980px;
+    width: 1200px;
     margin: 0 auto; 
 }
 
@@ -138,7 +138,7 @@ table {
 }
 
 th, td {
-    padding: 8px;
+    padding: 5px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
@@ -157,7 +157,7 @@ footer{
     float: left;
 }
 #footer-content{
-    width: 980px;
+    width: 1200px;
     margin: 0 auto;
     background: #333;
     color: #FFF;

@@ -19,6 +19,11 @@ $url .= '/controllers/cadastroController.php';
         line-height: 20px;
         float: left;
     }
+    
+     .list-produtos i, .coluna i {
+        font-size: 20px;
+        cursor: pointer;
+    }
 </style>
 
 <section id="main">
@@ -88,12 +93,15 @@ $url .= '/controllers/cadastroController.php';
                                     </td>
                                     <td>
                                         <?php if (!empty($codigo->getNomeSite())) {
-                                            echo "<a class='editarcodigo' href='#' id='" . $codigo->getCodigoId() . "'>Editar</a>";
+                                            echo "<i  id='" . $codigo->getCodigoId() . "' class='fa editarcodigo'>&#xf044;</i>";
                                         } ?>
-                                <?php echo "<a class='excluir' style='float: right' href='#' id='" . $codigo->getCodigoId() . "'> Excluir</a>" ?>
+                                        <?php // echo "<a class='excluir-ref' href='#' id='" . $codigo->getCodigoId() . "'> Excluir</a>" ?>
+                                        
+                                        <?php  ?> 
+                                        <?php echo "<i  id='" . $codigo->getCodigoId() . "' class='fa excluir-ref'>&#xf1f8;</i>"; ?>
                                     </td>
                                 </tr>
-    <?php } //endforeach  ?> 
+                            <?php } //endforeach  ?> 
                         </tbody>
                         <tfoot>
 
@@ -108,7 +116,7 @@ $url .= '/controllers/cadastroController.php';
 <script type="text/javascript">
     $(function () {
 
-        $(".excluir").on('click', function () {
+        $(".excluir-ref").on('click', function () {
             var codigoId;
             codigoId = $(this).attr("id");
             res = confirm("Deseja excluir o código selecionado?");
@@ -125,7 +133,8 @@ $url .= '/controllers/cadastroController.php';
             var input = '<input type="text" id=' + codigoId + ' name="nome-site[' + codigoId + ']" value="' + nome + '">';
 
             $(this).parent().prev().html(input);
-            $(this).addClass("salvar").removeClass("editarcodigo").html("Salvar");
+            salvar = "<i  class='fa'>&#xf00c;</i>";
+            $(this).addClass("salvar").removeClass("editarcodigo").html(salvar);
         })
 
         $(document).on('click', '.salvar', function () {
@@ -147,7 +156,7 @@ $url .= '/controllers/cadastroController.php';
 
                 $(nomeSite).parent().html(dados);
                 $(nomeSite).remove();
-                $(acao).addClass("editarcodigo").removeClass("salvar").html("Editar");
+                $(acao).addClass("editarcodigo").removeClass("salvar").html("&#xf044;");
 
             }).fail(function () {
                 console.log("Erro ao atualizar o nome do site");

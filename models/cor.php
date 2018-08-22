@@ -33,6 +33,30 @@ class Cor{
             return false;
         }
     }
+   
+    public function editar() {
+        $sql = "UPDATE cor SET nome = :nome WHERE idcor = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":nome", $this->getNome());
+        $rs->bindValue(":codigoId", $this->getIdCor());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function excluir() {
+        $sql = "DELETE FROM cor WHERE idcor = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":codigoId", $this->getIdCor());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public function listar() {
         try {
             $sql = "SELECT * FROM cor order by nome ASC";
