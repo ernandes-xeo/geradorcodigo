@@ -23,7 +23,7 @@ $referencias = $objref->listar();
 
 
 $obCodigo = new Codigo();
-$listaCodigos = $obCodigo->listar('idcodigo DESC', 10);
+$listaCodigos = $obCodigo->listar('idcodigo DESC', 20);
 $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 $urlEditar = $url . '/controllers/editarCadastroController.php';
 
@@ -54,7 +54,11 @@ $url .= '/controllers/cadastroController.php';
     .return{
         min-height: 35px;
     }
-
+    
+    form fieldset label{
+        font-size: 14px;
+    }
+    
     .coluna{ 
         width: 20%; 
         margin: 0 auto; 
@@ -228,9 +232,10 @@ $url .= '/controllers/cadastroController.php';
                     <tbody>
                         <?php foreach ($referencias as $referencia) { ?>
                             <tr>
-                                <td><?php echo $marca->buscarNome($referencia->getMarcaId()) . ": " .
-                        $objTipo->buscarNome($referencia->getTipoId()) . "_" . $referencia->getNome();
-                            ?></td>
+                                <td><?php
+                                    echo $marca->buscarNome($referencia->getMarcaId()) . ": " .
+                                    $objTipo->buscarNome($referencia->getTipoId()) . "_" . $referencia->getNome();
+                                    ?></td>
                                 <td>
                                     <?php // echo "<i  id='". $referencia->getIdReferencia()  ."' class='fa editarcodigo'>&#xf044;</i>"; ?> 
                                     <?php echo "<i  id='Codigo_excluir_" . $referencia->getIdReferencia() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
@@ -251,15 +256,15 @@ $url .= '/controllers/cadastroController.php';
                         </tr>
                     </thead>
                     <tbody>
-<?php foreach ($cores as $cor) { ?>
+                        <?php foreach ($cores as $cor) { ?>
                             <tr>
                                 <td><?php echo $cor->getNome() ?></td>
                                 <td>
                                     <?php echo "<i  id='Cor_editar_" . $cor->getIdCor() . "' class='fa editarcodigo'>&#xf044;</i>"; ?> 
-    <?php echo "<i  id='Cor_excluir_" . $cor->getIdCor() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
+                                    <?php echo "<i  id='Cor_excluir_" . $cor->getIdCor() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
                                 </td>
                             </tr>
-<?php } ?>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -271,21 +276,20 @@ $url .= '/controllers/cadastroController.php';
                         </tr>
                     </thead>
                     <tbody>
-
-<?php foreach ($tamanhos as $tamanho) { ?>
-                            <tr>                        
-                                <td><?php echo $tamanho->getNome() ?></td>
-                                <td>
-                                    <?php echo "<i  id='Tamanho_editar_" . $tamanho->getIdTamanho() . "' class='fa editarcodigo'>&#xf044;</i>"; ?> 
-    <?php echo "<i  id='Tamanho_excluir_" . $tamanho->getIdTamanho() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
-                                </td>
-                            </tr>
-<?php } ?>
+                        <?php foreach ($tamanhos as $tamanho) { ?>
+                        <tr>                        
+                            <td><?php echo $tamanho->getNome() ?></td>
+                            <td>
+                                <?php echo "<i  id='Tamanho_editar_" . $tamanho->getIdTamanho() . "' class='fa editarcodigo'>&#xf044;</i>"; ?> 
+                                <?php echo "<i  id='Tamanho_excluir_" . $tamanho->getIdTamanho() . "' class='fa excluir'>&#xf1f8;</i>"; ?>
+                            </td>
+                        </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
         </div>
-        <p style="clear: both"></p>
+        <div style="clear: both"></div>
         <hr />
         <div id="gerar-codigo">
             <h2>Gerar Novos Produtos</h2>
@@ -299,7 +303,7 @@ $url .= '/controllers/cadastroController.php';
                             <option value="">Selecione</option>
                             <?php foreach ($listas as $lista): ?>
                                 <option value="<?php echo $lista->getIdMarca() ?>"><?php echo $lista->getNome() ?></option>
-<?php endforeach; ?>
+                            <?php endforeach; ?>
                         </select>
 
                         <label for="tipo_id">Tipo</label>
@@ -307,7 +311,7 @@ $url .= '/controllers/cadastroController.php';
                             <option value="">Selecione</option>
                             <?php foreach ($tipos as $tipo): ?>
                                 <option value="<?php echo $tipo->getIdTipo() ?>"><?php echo $tipo->getNome() ?></option>
-<?php endforeach; ?>                    
+                            <?php endforeach; ?>                    
                         </select>
 
                         <label for="referencia_id">Referência</label>
@@ -315,30 +319,33 @@ $url .= '/controllers/cadastroController.php';
                             <option value="">Selecione</option>
                         </select>
 
-                        <label for="cor_id">Cor</label>
-                        <select id="cor-id" name="cor_id">
-                            <option value="">Selecione</option>
-                            <?php foreach ($cores as $cor): ?>
-                                <option value="<?php echo $cor->getIdCor() ?>"><?php echo $cor->getNome() ?></option>
-<?php endforeach; ?>
-                        </select>
-
-                        <label for="tamanho_id">Tamanho</label>
-                        <select name="tamanho_id">
-                            <option value="">Selecione</option>
-                            <?php foreach ($tamanhos as $tamanho): ?>
-                                <option value="<?php echo $tamanho->getIdTamanho() ?>"><?php echo $tamanho->getNome() ?></option>
-<?php endforeach; ?>
-                        </select>
+                        <label for="cor">Selecione Cor</label>
+                        
+                       <?php foreach ($cores as $cor): ?>
+                        <label for="<?php echo $cor->getNome() ?>">
+                            <input type="checkbox" name="cores[<?php echo $cor->getIdCor() ?>]" value="<?php echo $cor->getNome() ?>" />
+                            <span><?php echo trim($cor->getNome()); ?></span>
+                        </label>
+                         <?php endforeach; ?>        
+                        <?php  ?>
+                        <label for="tamanhos">Selecione o Tamanho</label>
+                        <?php foreach ($tamanhos as $tamanho): ?>
+                        <label for="<?php echo $tamanho->getNome() ?>">
+                            <input type="checkbox" name="tamanhos[<?php echo $tamanho->getIdTamanho() ?>]" value="<?php echo $tamanho->getNome() ?>" />
+                            <span><?php echo trim($tamanho->getNome()); ?></span>
+                        </label>
+                         <?php endforeach; ?>                       
                         <br />
                         <input class="botao" id="gerarcodigo" name="botao" type="button" value="Adicionar" />
                     </fieldset>
                 </form>
+                <div style="clear: both"></div>
+                <div class="result"></div>
             </div>
             <div class="boxe1">  
                 <h3>Últimos Produtos Cadastrados</h3>
                 <div id="listarcodigos">
-<?php if (count($listaCodigos) > 0): ?>
+                        <?php if (count($listaCodigos) > 0): ?>
                         <table>
                             <thead>
                                 <tr>
@@ -348,18 +355,18 @@ $url .= '/controllers/cadastroController.php';
                                 </tr>
                             </thead>
                             <tbody>
-    <?php foreach ($listaCodigos as $codigo) { ?> 
-                                    <tr>
-                                        <td><?php echo $codigo->getCodigoProduto(); ?></td>
-                                        <td><?php echo $codigo->getNome(); ?></td>
-                                        <td>
-        <?php echo "<i  id='" . $codigo->getCodigoId() . "' class='fa excluir-ref'>&#xf1f8;</i>"; ?>
-                                        </td>
-                                    </tr>
-    <?php } ?> 
+                            <?php foreach ($listaCodigos as $codigo) { ?> 
+                                <tr>
+                                    <td><?php echo $codigo->getCodigoProduto(); ?></td>
+                                    <td><?php echo $codigo->getNome(); ?></td>
+                                    <td>
+                                        <?php echo "<i  id='" . $codigo->getCodigoId() . "' class='fa excluir-ref'>&#xf1f8;</i>"; ?>
+                                    </td>
+                                </tr>
+                            <?php } ?> 
                             </tbody>
                         </table>
-<?php endif; ?>
+                        <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -415,7 +422,7 @@ $url .= '/controllers/cadastroController.php';
                     $(this).html("carregando...");
                 }
             }).done(function (data) {
-                $(".return").html(data);
+                $(".result").html(data);
                 atualizarListaProdutos();
             })
 

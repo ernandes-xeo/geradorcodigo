@@ -115,9 +115,9 @@ class Codigo {
          * Formar nome do produto 
          * Tipo
          * Referencia
-         * Cor
+         * Cor (opcional)
          * Marca
-         * Tamanho
+         * Tamanho (opcional)
          **/
         $tipo = new Tipo();
         $nome = $tipo->buscarNome($this->tipoId); // erro esta retornando objeto inteiro
@@ -142,8 +142,8 @@ class Codigo {
         $this->setNome($nome);
 
         if ($this->verificarCodigo()) {
-            $_SESSION['codigo'] = true; // o codigo ja foi cadastrado
-            $_SESSION['nome_produto'] = $this->getNome(); // o codigo ja foi cadastrado
+            //$_SESSION['codigo'] = true; // o codigo ja foi cadastrado
+            //$_SESSION['nome_produto'] = $this->getNome(); // o codigo ja foi cadastrado
             return true; // o código já existe
         } else {
             unset($_SESSION['codigo']);
