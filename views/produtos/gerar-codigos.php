@@ -38,11 +38,7 @@ $url .= '/controllers/cadastroController.php';
     }
     
     .coluna{ 
-        width: 20%; 
-        margin: 0 auto; 
-        max-height: 500px;
-        overflow-y: auto;
-        float: left;
+        width: 40%; 
     }
 
     #listarcodigos i, .coluna i {
@@ -60,6 +56,18 @@ $url .= '/controllers/cadastroController.php';
         float: left;
         margin-bottom: 5em;
     }
+    
+    .grid-50{
+        width: 50%;
+        float: left;
+        display: grid;
+    }
+    
+    .label{
+        margin: 20px 0 10px;
+        font-weight: 600;
+    }
+    
     .boxe1{
         width: 60%;
         float: left;
@@ -122,23 +130,26 @@ $url .= '/controllers/cadastroController.php';
                         <select id="ref-ref" name="referencia_id" required="required">
                             <option value="">Selecione</option>
                         </select>
-
-                        <label for="cor">Selecione Cor</label>
+                        <label for="cor" class="label">Selecione Cor</label>
+                        <?php foreach ($cores as $cor): ?>
+                        <div class="grid-50">
+                            <label for="<?php echo $cor->getNome() ?>">
+                                <input type="checkbox" name="cores[<?php echo $cor->getIdCor() ?>]" value="<?php echo $cor->getNome() ?>" />
+                                <span><?php echo trim($cor->getNome()); ?></span>
+                            </label>
+                        </div>
+                         <?php endforeach; ?>
                         
-                       <?php foreach ($cores as $cor): ?>
-                        <label for="<?php echo $cor->getNome() ?>">
-                            <input type="checkbox" name="cores[<?php echo $cor->getIdCor() ?>]" value="<?php echo $cor->getNome() ?>" />
-                            <span><?php echo trim($cor->getNome()); ?></span>
-                        </label>
-                         <?php endforeach; ?>        
-                        <?php  ?>
-                        <label for="tamanhos">Selecione o Tamanho</label>
+                        <div style="clear: both"></div>
+                        <label for="tamanhos" class="label">Selecione o Tamanho</label>
                         <?php foreach ($tamanhos as $tamanho): ?>
+                        <div class="grid-50">
                         <label for="<?php echo $tamanho->getNome() ?>">
                             <input type="checkbox" name="tamanhos[<?php echo $tamanho->getIdTamanho() ?>]" value="<?php echo $tamanho->getNome() ?>" />
                             <span><?php echo trim($tamanho->getNome()); ?></span>
                         </label>
-                         <?php endforeach; ?>                       
+                        </div>
+                         <?php endforeach; ?>                                               
                         <br />
                         <input class="botao" id="gerarcodigo" name="botao" type="button" value="Adicionar" />
                     </fieldset>
