@@ -1,5 +1,26 @@
 <?php
 require_once '../models/login.php';
+include_once('../models/marca.php');
+include_once('../models/tipo.php');
+include_once('../models/cor.php');
+include_once('../models/tamanho.php');
+include_once('../models/referencia.php');
+
+$marca = new Marca();
+$listas = $marca->listar();
+
+$objTipo = new Tipo();
+$tipos = $objTipo->listar();
+
+$objCor = new Cor();
+$cores = $objCor->listar();
+
+$objTamanhos = new Tamanho();
+$tamanhos = $objTamanhos->listar();
+
+$objref = new Referencia();
+$referencias = $objref->listar();
+
 
 if (!isset($_SESSION)) {
     session_start();
@@ -56,6 +77,9 @@ if ($login->verificaLogin()) {
                 break;
             case 'produtos':
                 include_once './produtos/produtos.php';
+                break;
+            case 'GerarCodigos':
+                include_once './produtos/gerar-codigos.php';
                 break;
             
             case 'listar-produtos':

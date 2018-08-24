@@ -1,8 +1,6 @@
 <?php
 include_once('../models/codigo.php');
 
-
-
 $obCodigo = new Codigo();
 $listaCodigos = $obCodigo->listar('idcodigo DESC');
 

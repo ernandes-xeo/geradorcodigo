@@ -47,7 +47,7 @@ switch ($action){
             echo "<tr>";
             echo "<td>" . $item->getNome() ."</td>";
             echo "<td>";
-            if(get_class($item) != "Codigo"){
+            if(get_class($item) != "Referencia"){
                 echo "<i  id='".$classe."_editar_". $item->$getId()  ."' class='fa editarcodigo'>&#xf044;</i>";
             }
             echo "<i  id='".$classe."_excluir_". $item->$getId()  ."' class='fa excluir'>&#xf1f8;</i>";

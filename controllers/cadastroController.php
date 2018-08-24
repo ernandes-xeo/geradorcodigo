@@ -171,7 +171,7 @@ switch ($action) {
         if (!empty($codigoId)) {
             if ($codigo->excluir($codigoId)) {
                 $_SESSION['excluido'] = true;
-                $url = 'location: ../views/index.php?op=produtos';
+                $url = 'location: ../views/index.php?op=GerarCodigos';
                 header($url);
             }
         }

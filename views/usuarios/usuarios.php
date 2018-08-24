@@ -67,8 +67,10 @@ $usuarios = $usarioDao->listarPaginas($p, $qnt);
                 <td><?php echo $usuario->getNome() ?></td>
                 <td><?php echo $usuario->getEmail() ?></td>
                 <td align="center">
-                    <a href="../controllers/usuariosController.php?botao=exibir&id=<?php echo $usuario->getId() ?>">Exibir </a> | 
-                    <a href="../controllers/usuariosController.php?botao=excluir&id=<?php echo $usuario->getId() ?>" onclick="return confirmar()">Excluir</a>
+                    <?php if($usuario->getId() <> 1){ ?>
+                        <a href="../controllers/usuariosController.php?botao=exibir&id=<?php echo $usuario->getId() ?>">Exibir </a> |                    
+                        <a href="../controllers/usuariosController.php?botao=excluir&id=<?php echo $usuario->getId() ?>" onclick="return confirmar()">Excluir</a>
+                    <?php } ?>
 
                 </td>
             <?php } ?>

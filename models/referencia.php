@@ -54,6 +54,29 @@ class Referencia {
             return false;
         }
     }
+    
+    public function editar() {
+        $sql = "UPDATE referencia SET nome = :nome WHERE idreferencia = :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":nome", $this->getNome());
+        $rs->bindValue(":codigoId", $this->getIdReferencia());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function excluir() {
+        $sql = "DELETE from referencia WHERE idreferencia= :codigoId";
+        $rs = Conexao::getInstance()->prepare($sql);
+        $rs->bindValue(":codigoId", $this->getIdReferencia());
+        if ($rs->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    } 
 
     public function listar() {
         try {
@@ -65,6 +88,7 @@ class Referencia {
             $i = 0;
             while ($row = $result->fetch(PDO::FETCH_OBJ)) {
                 $obj = new Referencia();
+                $obj->setIdReferencia($row->idreferencia);
                 $obj->setNome($row->nome);
                 $obj->setMarcaId($row->marca_id);
                 $obj->setTipoId($row->tipo_id);
