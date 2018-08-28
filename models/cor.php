@@ -59,7 +59,7 @@ class Cor{
     
     public function listar() {
         try {
-            $sql = "SELECT * FROM cor order by nome ASC";
+            $sql = "SELECT * FROM cor";
 
             $result = Conexao::getInstance()->query($sql);
 

@@ -108,7 +108,9 @@ $url .= '/controllers/cadastroController.php';
                     </form>
                 </table>
                 <br />
-<?php endif; ?>
+            <?php else: ?>
+                 <h3> Ainda não possui produtos cadastrados. </h3>
+            <?php endif; ?>
         </div>
     </div>
 <script type="text/javascript">

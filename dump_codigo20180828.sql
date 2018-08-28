@@ -42,7 +42,7 @@ CREATE TABLE `codigo` (
   CONSTRAINT `FK_codigo_marca` FOREIGN KEY (`marca_id`) REFERENCES `marca` (`idmarca`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_codigo_referencia` FOREIGN KEY (`referencia_id`) REFERENCES `referencia` (`idreferencia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_codigo_tipo` FOREIGN KEY (`tipo_id`) REFERENCES `tipo` (`idtipo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +51,7 @@ CREATE TABLE `codigo` (
 
 LOCK TABLES `codigo` WRITE;
 /*!40000 ALTER TABLE `codigo` DISABLE KEYS */;
-INSERT INTO `codigo` VALUES (1,'Polo Elite Preto Polo Live P',NULL,'101101021011',NULL,101,10,102,10,11),(2,'Polo Elite Preto Polo Live M',NULL,'101101021012',NULL,101,10,102,10,12),(3,'Polo Elite Preto Polo Live G',NULL,'101101021013',NULL,101,10,102,10,13),(4,'Polo Básic Preto Phox G',NULL,'100101001013',NULL,100,10,100,10,13),(5,'Polo Básic Preto Phox G1',NULL,'100101001015',NULL,100,10,100,10,15),(6,'Polo Básic Preto Phox G2',NULL,'100101001016',NULL,100,10,100,10,16),(7,'Camiseta descrição do marca Azul Marinho Vestaria PP',NULL,'106121131310',NULL,106,12,113,13,10),(8,'Camiseta descrição do marca Azul Marinho Vestaria M',NULL,'106121131312',NULL,106,12,113,13,12),(9,'Camiseta descrição do marca Branco Vestaria PP',NULL,'106121131110',NULL,106,12,113,11,10),(10,'Camiseta descrição do marca Branco Vestaria M',NULL,'106121131112',NULL,106,12,113,11,12);
+INSERT INTO `codigo` VALUES (2,'Polo Basic Polo Live',NULL,'10110100',NULL,101,10,100,NULL,NULL);
 /*!40000 ALTER TABLE `codigo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `cor` (
   `idcor` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idcor`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='	';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='	';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +75,7 @@ CREATE TABLE `cor` (
 
 LOCK TABLES `cor` WRITE;
 /*!40000 ALTER TABLE `cor` DISABLE KEYS */;
-INSERT INTO `cor` VALUES (10,'Preto'),(11,'Branco'),(12,'Cinza'),(13,'Azul Marinho'),(14,'Cinza Claro'),(16,'Rocha'),(19,'Marron'),(24,'a'),(25,'b'),(26,'c'),(27,'d'),(28,'e'),(29,'f'),(30,'g'),(31,'h'),(32,'i'),(33,'j'),(34,'l'),(35,'m');
+INSERT INTO `cor` VALUES (10,'Preto'),(11,'Branco'),(12,'Cinza'),(13,'Azul Marinho'),(14,'Cinza Claro'),(15,'Cinza Escuro');
 /*!40000 ALTER TABLE `cor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ CREATE TABLE `marca` (
   `idmarca` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idmarca`)
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `marca` (
 
 LOCK TABLES `marca` WRITE;
 /*!40000 ALTER TABLE `marca` DISABLE KEYS */;
-INSERT INTO `marca` VALUES (100,'Phox'),(101,'Polo Live'),(102,'XK'),(103,'Amil'),(104,'Amaro'),(105,'Versani'),(106,'Vestaria');
+INSERT INTO `marca` VALUES (100,'Phox'),(101,'Polo Live'),(102,'XK'),(103,'Amil'),(104,'Amaro'),(105,'Versani'),(106,'Vestaria'),(107,'Eterna Magia');
 /*!40000 ALTER TABLE `marca` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +120,7 @@ CREATE TABLE `referencia` (
   KEY `fk_referencia_tipo1_idx` (`tipo_id`),
   CONSTRAINT `fk_referencia_marca` FOREIGN KEY (`marca_id`) REFERENCES `marca` (`idmarca`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_referencia_tipo1` FOREIGN KEY (`tipo_id`) REFERENCES `tipo` (`idtipo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +129,7 @@ CREATE TABLE `referencia` (
 
 LOCK TABLES `referencia` WRITE;
 /*!40000 ALTER TABLE `referencia` DISABLE KEYS */;
-INSERT INTO `referencia` VALUES (100,'Básic',100,10),(102,'Elite',101,10),(103,'Básica',102,12),(104,'Lisa',102,12),(112,'Básica',105,10),(113,'descrição do marca',106,12);
+INSERT INTO `referencia` VALUES (100,'Basic',101,10);
 /*!40000 ALTER TABLE `referencia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,7 +144,7 @@ CREATE TABLE `tamanho` (
   `idtamanho` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idtamanho`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +153,7 @@ CREATE TABLE `tamanho` (
 
 LOCK TABLES `tamanho` WRITE;
 /*!40000 ALTER TABLE `tamanho` DISABLE KEYS */;
-INSERT INTO `tamanho` VALUES (10,'PP'),(11,'P'),(12,'M'),(13,'G'),(15,'G1'),(16,'G2'),(17,'G3'),(18,'G4'),(19,'U'),(20,'35'),(21,'36'),(23,'GG');
+INSERT INTO `tamanho` VALUES (10,'PP'),(11,'P'),(12,'M'),(13,'G'),(14,'GG'),(15,'G1'),(16,'G2'),(17,'G3'),(18,'G4'),(19,'U');
 /*!40000 ALTER TABLE `tamanho` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +168,7 @@ CREATE TABLE `tipo` (
   `idtipo` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idtipo`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='	';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='	';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +177,7 @@ CREATE TABLE `tipo` (
 
 LOCK TABLES `tipo` WRITE;
 /*!40000 ALTER TABLE `tipo` DISABLE KEYS */;
-INSERT INTO `tipo` VALUES (10,'Polo'),(11,'Polo M/ Longa'),(12,'Camiseta'),(13,'Calça'),(14,'Calça Jeans'),(15,'Camisa Slim');
+INSERT INTO `tipo` VALUES (10,'Polo'),(11,'Polo M/ Longa'),(12,'Camiseta'),(13,'Calça'),(14,'Calça Jeans'),(15,'Camisa Slim'),(16,'Calça Moletom');
 /*!40000 ALTER TABLE `tipo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +195,7 @@ CREATE TABLE `usuario` (
   `mail` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `senha` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +204,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'root','WebMaster','dev@vestaria.com.br','827ccb0eea8a706c4c34a16891f84e7b'),(2,'admin','Vestaria Admin','contato@vestaria.com.br','277a7ab8dd50af91297d5c175164c66e');
+INSERT INTO `usuario` VALUES (1,'root','WebMaster','dev@vestaria.com.br','827ccb0eea8a706c4c34a16891f84e7b'),(2,'admin','Vestaria Admin','contato@vestaria.com.br','277a7ab8dd50af91297d5c175164c66e'),(3,'carol','Carol','carol@vestaria.com.br','158c6f5d824b51b99ae2e5578a66e98c');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -217,4 +217,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-28  9:43:41
+-- Dump completed on 2018-08-28 15:04:57
