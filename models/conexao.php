@@ -8,27 +8,13 @@ class Conexao {
     public function __construct() {
         //$this->conectar();
     }
-	
-	/* exemplo1 */
-//    public function conectar() {
-//        $host = 'localhost';
-//        $banco = 'codigo_barras';
-//        $user = 'root';
-//        $senha = '';
-//        try {
-//            $this->con = new PDO("mysql:host=" . $host . ";dbname=" . $banco . "", "" . $user . "", "" . $senha . "");
-//        } catch (Exception $ex) {
-//            print_r($ex);
-//        }
-//        return $this->con;
-//    }
-	/* exemplo2 */
+
     public static function getInstance() {
         
-        $host = 'localhost';
-        $banco = 'codigo_barras';
-        $user = 'root';
-        $senha = '';
+        $host = 'cod_barras.mysql.dbaas.com.br';
+        $banco = 'cod_barras';
+        $user = 'cod_barras';
+        $senha = 'CodBarras!@#00';
         
         if (!isset(self::$instance)) {
             self::$instance = new PDO('mysql:host='.$host.';dbname='.$banco.'', $user, $senha, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));

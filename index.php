@@ -23,7 +23,7 @@ if (!isset($_SESSION)) {
 
             </div>
         <?php } ?>
-        <form class="login" method="POST" action="controllers/LoginController.php" >
+        <form class="login" method="POST" action="controllers/loginController.php" >
             <fieldset> <legend>Login</legend>
                 <label>Usuário</label>
                 <input id="nome" type="text" name="user" />
