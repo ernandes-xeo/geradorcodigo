@@ -59,7 +59,7 @@ class Tipo {
 
     public function listar() {
         try {
-            $sql = "SELECT * FROM tipo";
+            $sql = "SELECT * FROM tipo order by nome ";
 
             $result = Conexao::getInstance()->query($sql);
 

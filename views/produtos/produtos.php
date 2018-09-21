@@ -36,10 +36,8 @@ $url .= '/codigo/controllers/cadastroController.php';
     }
     
     .coluna{ 
-        width: 20%; 
-        margin: 0 auto; 
-        max-height: 500px;
-        overflow-y: auto;
+        width: 18%; 
+        margin-left: 10px; 
         float: left;
     }
 
