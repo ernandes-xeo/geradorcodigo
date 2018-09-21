@@ -1,8 +1,0 @@
-
-########## CONFIGURAÇÃO DO PROJETO ############
-
-## IMPORTAR BANCO DE DADOS PASTA DUMP ##
-## Configurar o usuário do banco de dados  ./models/conexao.php
-
-
-

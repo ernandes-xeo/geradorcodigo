@@ -1,9 +1,9 @@
 <?php
 
 $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-$urlEditar = $url . '/controllers/editarCadastroController.php';
+$urlEditar = $url . '/codigo/controllers/editarCadastroController.php';
 
-$url .= '/controllers/cadastroController.php';
+$url .= '/codigo/controllers/cadastroController.php';
 ?>
 <style type="text/css">
     /*
