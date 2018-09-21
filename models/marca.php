@@ -60,7 +60,7 @@ class Marca {
 
     public function listar() {
         try {
-            $sql = "SELECT * FROM marca";
+            $sql = "SELECT * FROM marca order by nome";
 
             $result = Conexao::getInstance()->query($sql);
 
