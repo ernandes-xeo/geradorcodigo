@@ -7,7 +7,7 @@ if (!isset($_SESSION)) {
 <html lang="pt-br">
     <head>
         <meta charset="utf-8" >
-        <title>Formulário Login</title>
+        <title>Gerador Código SKU</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="skin/css/longin.css" >
         <link rel="stylesheet" type="text/css" href="skin/css/style.css" >
@@ -23,7 +23,7 @@ if (!isset($_SESSION)) {
 
             </div>
         <?php } ?>
-        <form class="login" method="POST" action="controllers/LoginController.php" >
+        <form class="login" method="POST" action="controllers/loginController.php" >
             <fieldset> <legend>Login</legend>
                 <label>Usuário</label>
                 <input id="nome" type="text" name="user" />

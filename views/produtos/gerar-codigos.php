@@ -5,7 +5,7 @@ $obCodigo = new Codigo();
 $listaCodigos = $obCodigo->listar('idcodigo DESC', 20);
 
 $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-$url .= '/controllers/cadastroController.php';
+$url .= '/codigo/controllers/cadastroController.php';
 ?>
 <style type="text/css">
     /*
